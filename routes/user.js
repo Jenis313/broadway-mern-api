@@ -1,15 +1,19 @@
 const express = require('express');
 const router = express.Router();
+// import middlewares
+const loginCheck = require('../app/middlewares/login.middlware');
 
+// import controllers
+const UserController = require('../app/controllers/user.controller');
+const userCtrl = new UserController();
 router.route('/')
-.get((req, res) => {
-    res.send('Hi this is user page and you are viewing all of the users list')
-})
+.get(loginCheck, userCtrl.listAllUsers)
+.post(loginCheck, userCtrl.userRegister)
 
 router.route('/:id')
-.get()
-.put()
-.delete()
+.get(userCtrl.getUserById)
+.put(loginCheck, userCtrl.updateUserById)
+.delete(loginCheck, userCtrl.deleteUserById)
 
 
 router.route('/search')
