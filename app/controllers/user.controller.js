@@ -8,7 +8,11 @@ class UserController {
 
 
     userRegister = (req, res, next) => {
-        
+        if(req.file){
+            req.body.image = req.file.filename;
+        }
+
+      
         let errorMessages = this.userService.validateRegister(req.body)
         
         if(Object.keys(errorMessages).length !== 0){
