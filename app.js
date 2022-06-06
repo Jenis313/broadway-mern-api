@@ -4,9 +4,17 @@ const morgan = require('morgan')
 // Import routes
 const routes = require('./routes/index');
 
+// database connection
+require("./config/mongo.config");
+
+//load events
+const events = require('./app/events/events');
+
 // use morgan
 app.use(morgan('dev'));
 
+// use events
+app.use(events);
 // Parse data
 app.use(express.json())
 app.use(express.urlencoded({
@@ -26,6 +34,7 @@ app.use((req, res, next) => {
 })
 app.use((err, req, res, next) => {
     res
+    console.log('Error from captured in error handling middleware --> ', err)
     .status(err.statusCode || 500)
     .json({
         msg : err.msg || JSON.stringify(err)

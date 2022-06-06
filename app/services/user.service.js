@@ -1,3 +1,5 @@
+const {dbService} = require('./mongodb.service');
+
 class UserService {
     validateRegister = (data) => {
         let {full_name, username, email, password} = data;
@@ -9,6 +11,27 @@ class UserService {
         if(!password) errorMessages.password = "Password required";
 
         return errorMessages;
+    }
+    userRegister = (data) => {
+                // Insert into database
+        return new Promise((res, rej) => {
+            dbService()
+                .then((db) => {
+                    db.collection('users').insertOne(data, (err, result) => {
+                        if(err){
+                            console.log('db connect error!')
+                            rej(err)
+                            return
+                        }
+                        console.log('db connect success!');
+                        res(data);
+                    })
+        
+                })
+                .catch((err) => {
+                    rej(err)
+                })
+        })        
     }
 }
 module.exports  = UserService;

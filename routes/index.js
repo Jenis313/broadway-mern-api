@@ -7,10 +7,10 @@ const brand = require('./brand');
 const category = require('./category');
 const product = require('./product');
 const order = require('./order');
+const authRoutes = require('./auth');
 
 // use
-
-
+app.use('/auth', authRoutes)
 app.use('/user', user);
 app.use('/slider', slider);
 app.use('/brand', brand);
